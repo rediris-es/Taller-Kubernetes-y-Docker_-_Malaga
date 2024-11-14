@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-configmap
+  namespace: ns1-XXXXX # Cambia esto por tu namespace
+data:
+  BACKEND_SERVICE_NAME: backend-service
+
+
+---
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-configmap
+  namespace: ns1-XXXXX # Cambia esto por tu namespace
+data:
+  APP_NAME: "My Production App"
+  LOG_LEVEL: "INFO"
+  EXTERNAL_API_URL: "https://api.internal-service.com"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-init-configmap
+  namespace: ns1-XXXXX # Cambia esto por tu namespace
+data:
+  init-data.sql: |
+    CREATE DATABASE myapp_db;
+    USE myapp_db;
+    
+    -- Crear una tabla de ejemplo
+    CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(50),
+        age INT
+    );
+
+    -- Insertar datos de ejemplo
+    INSERT INTO users (name, age) VALUES ('Alice', 30);
+    INSERT INTO users (name, age) VALUES ('Bob', 25);
+    INSERT INTO users (name, age) VALUES ('Charlie', 35);

@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-XX # Numero de tu usuario
+  labels:
+    name: mysql-pvc-XX  # Numero de tu usuario
+spec:
+  capacity:
+    storage: 50Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/nfs_share/XXXXX"  # Cambia esto por tu usuario
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc-XX # Numero de tu usuario
+  namespace: ns1-XXXXX # Cambia esto por tu namespace
+  labels:
+    name: mysql-pvc-XX  # Numero de tu usuario
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi

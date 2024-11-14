@@ -1,0 +1,62 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_DATABASE: users
+      MYSQL_USER: myapp_user
+      MYSQL_PASSWORD: myapp_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./backend/v1
+    container_name: backend_container
+    environment:
+      FLASK_APP: app.py
+      DB_HOST: db
+      DB_NAME: users
+      DB_USER: myapp_user
+      DB_PASSWORD: myapp_password
+      EXTERNAL_API_URL: https://api.example.com
+    networks:
+      - app_network
+
+  backend_dos:
+    build:
+      context: ./backend/v2
+    container_name: backend_container_dos
+    environment:
+      FLASK_APP: app.py
+      DB_HOST: db
+      DB_NAME: users
+      DB_USER: myapp_user
+      DB_PASSWORD: myapp_password
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./nginx
+    container_name: nginx_container
+    environment:
+      BACKEND_NAME: backend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+
+networks:
+  app_network:
