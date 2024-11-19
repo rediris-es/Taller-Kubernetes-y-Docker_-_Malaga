@@ -1,4 +1,4 @@
-# Talleres-Malaga
+# Taller de Docker y Kubernetes en Málaga
 Documentación, YAMLs y transparecianas del taller de IdPnube de Málaga
 
 Estos documentos y prácticas, están orientadas para su uso y ejecución en el entorno que se generó para los talleres de Málaga.
